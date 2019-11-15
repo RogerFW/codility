@@ -1,6 +1,6 @@
 // https://app.codility.com/programmers/lessons/4-counting_elements/max_counters/
 //
-// Task Score: 100%
+// Task Score: 55%
 // Correctness: 100%
 // Performance: 100%
 // Detected time complexity: O(N+M)
@@ -41,4 +41,47 @@ vector<int> solution(int N, vector<int> &A) {
     }
     
     return counters;
+}
+
+
+// https://app.codility.com/programmers/lessons/4-counting_elements/max_counters/
+//
+// Task Score: 100%
+// Correctness: 100%
+// Performance: 100%
+// Detected time complexity: O(N+M)
+//
+#include <algorithm>
+
+vector<int> solution(int N, vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    auto max = 0;
+    auto index = 0;
+    auto last = 0;
+    
+    std::vector<int> result(N);
+    
+    std::for_each(A.cbegin(),A.cend(),[&](const int& code){
+        if(code >= 1 && code <= N){
+            index = code -1;
+            
+            if( result[index] < last)
+                result[index] = last;
+    
+            ++result[index];
+        
+            if(max < result[index])
+                max = result[index];
+            
+        }else if(code == (N + 1)){
+            last = max;
+        }
+    });
+    
+    std::for_each(result.begin(),result.end(),[last](int& value){
+        if(value < last)
+            value = last;
+    });
+    
+    return result;
 }
